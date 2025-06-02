@@ -1,6 +1,5 @@
-# AgentPro
-
-AgentPro is a lightweight ReAct-style agentic framework built in Python, designed for structured reasoning step-by-step using available tools, while maintaining a complete history of Thought → Action → Observation → PAUSE → Final Answer steps.
+# Signal Analysis App
+Signal Analysis App is a Streamlit-powered AI assistant that uses a modular ReAct-style agent pipeline (built using AgentPro) for generating, analyzing, and diagnosing signals. It’s ideal for simulating sensor data, running frequency analysis, detecting anomalies, classifying signals, and generating reports — all in one UI.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.8%2B-blue" alt="Python 3.8+">
@@ -8,17 +7,21 @@ AgentPro is a lightweight ReAct-style agentic framework built in Python, designe
 </p>
 
 ## 📚 Features
+🔊 Signal Generation: sine, square, chirp, multi-tone, and noisy waveforms
 
-- 🔥 ReAct (Reasoning + Acting) agent pattern
-- 🛠️ Modular tool system (easy to add your own tools)
-- 📜 Clean Thought/Action/Observation/PAUSE parsing
-- 📦 Local package structure for easy extension
-- 🧠 Powered by any LLM! (Anthropic, Open AI or any other Open source LLMs)
+⚡ FFT/STFT Analysis & Anomaly Detection (via Isolation Forest)
+
+🧠 Signal Classification using pretrained ResNet-18
+
+💬 GPT-4o-based Diagnosis with human-readable insights
+
+📄 Auto-generated Markdown + Plotly Reports
+
+🧩 Modular architecture using the AgentPro agent-tool design
 
 ## Quick Start
 
 ### Installation
-
 Install agentpro repository using pip:
 
 ```bash
@@ -45,128 +48,74 @@ Ares internet tool: Searches the internet for real-time information using the Tr
 From the command line:
 
 ```bash
-python main.py
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
-This starts an interactive session with the agent where you can enter queries. -->
+You’ll see a UI open in your browser with options to generate, analyze, and diagnose signals interactively.. -->
 
-### Basic Usage
-```python
-import os
+
+## 🧱 Modular Agent Pipeline
+This app connects four agents in a ReAct-style loop:
+
+### 🧪 1. SignalGeneratorAgent
+Action: "generate_signal"
+
+Types: "sine", "square", "chirp", "noise", "noisy_sine", "multi_sine"
+
+Output: time and signal array in dictionary format
+
+### 📊 2. SignalAnalyzerAgent
+Action: "analyze_signal"
+
+Performs: FFT, STFT, anomaly detection, classification (ResNet-18)
+
+Output: frequency bins, STFT image, labels, anomalies
+
+### 🩺 3. SignalDiagnosticAgent
+Action: "diagnose_signal"
+
+Uses GPT-4o to interpret analyzer results
+
+Output: root cause + next step recommendation
+
+### 📝 4. ReportAgent
+Action: "generate_report"
+
+Output: Markdown report with base64-encoded plots + Plotly dashboard JSON
+
+## ✨ Example Usage
+
 from agentpro import ReactAgent
-from agentpro.tools import AresInternetTool
+from signal_agents import (
+    SignalGeneratorAgent,
+    SignalAnalyzerAgent,
+    SignalDiagnosticAgent,
+    ReportAgent,
+)
 from agentpro import create_model
+import os
 
-# Create a model with OpenAI
-model = create_model(provider="openai", model_name="gpt-4o", api_key=os.getenv("OPENAI_API_KEY", None))
+#### Create model using OpenAI GPT-4o
+model = create_model("openai", "gpt-4o", api_key=os.getenv("OPENAI_API_KEY"))
 
-# Initialize tools
-tools = [AresInternetTool(os.getenv("ARES_API_KEY", None))]
+#### Initialize agents
+tools = [
+    SignalGeneratorAgent(),
+    SignalAnalyzerAgent(),
+    SignalDiagnosticAgent(),
+    ReportAgent()
+]
 
-# Initialize agent
+#### Initialize ReAct Agent
 agent = ReactAgent(model=model, tools=tools)
 
-# Run a query
-query = "What is the height of the Eiffel Tower?"
-response = agent.run(query)
+#### Run query
+query = "Generate a 100Hz sine wave, analyze and diagnose it, and give me a report"
+result = agent.run(query)
 
-print(f"\nFinal Answer: {response.final_answer}")
-```
-For Ares api key, follow these steps:
-
-1. Go to the [Traversaal API platform](https://api.traversaal.ai/)
-2. Log in or create an account
-3. Generate your Ares API key from the dashboard.
-
-<!--
-You can also use the [Quick Start](https://github.com/traversaal-ai/AgentPro/blob/main/cookbook/quick_start.ipynb) Jupyter Notebook to run AgentPro directly in Colab.
--->
-## 🌍 Traversaal x Optimized AI Hackathon 2025
-
-We’re teaming up with the **Optimized AI Conference 2025** to host a **global hackathon on AI Agents** — open to all developers, builders, researchers, and dreamers working on intelligent systems.
-
-### The Challenge
-
-**Build a real, functional AI Agent** that solves a real-world problem.
-
-This isn’t about flashy demos. We want to see domain-specific, usable, vertical agents — like:
-- 🧑‍💼 Customer Support Agents
-- 🔬 Research Assistants
-- 📊 Data Analyst Agents
-- 💡 Or something totally original
-
-You can use any framework, but we recommend trying **[AgentPro](https://github.com/traversaal-ai/AgentPro)** — our open-source toolkit designed for rapid prototyping and robust architecture.
-
-### Key Dates
-
-- **Hackathon Starts:** April 9, 2025  
-- **Submission Deadline:** April 15, 2025  
-- **Winners Announced:** April 15, 2025 (Live @ Optimized AI Conference)
-
-### Prizes + Recognition
-
-| Prize Tier         | Reward     |
-|--------------------|------------|
-| 🥇 Grand Prize      | $1,000     |
-| 🥈 Runner-Up        | $500     |
-| 🥉 Honorable Mention x2 | $250       |
-
-Plus:
-- 1:1 **Mentorship opportunities**
-- Invitation to **Traversaal’s AI Fellowship Program**
-
-### Want to be a Judge?
-We’re looking for global experts in AI, product, UX, and enterprise applications to help evaluate the submissions. 👉 [Apply to be a Judge](https://forms.gle/zpC4GbEjAkD1osY68)
-
-For more details, follow this [link](https://hackathon.traversaal.ai/)
-
-📩 Questions? Reach us at [hackathon-oai@traversaal.ai](hackathon-oai@traversaal.ai)
-
-## 🛠️ Creating Custom Tools
-
-You can create your own tools by extending the `Tool` base class provided in `agentpro`.
-
-Here’s a basic example:
-
-```python
-from agentpro.tools import Tool
-from typing import Any
-
-class MyCustomTool(Tool):
-    name: str = "My Custom Tool"  # Human-readable name for the tool (used in documentation and debugging)
-    description: str = "Description"  # Brief summary explaining the tool's functionality for agent
-    action_type: str = "my_custom_action"  # Unique identifier for the tool; lowercase with underscores for agent; avoid spaces, digits, special characters
-    input_format: str = "Description of expected input format, e.g., a string query."  # Instruction on what kind of input the tool expects with example
-
-    def run(self, input_text: Any) -> str:
-        # your tool logic
-        return "Result of your custom tool."
-
-```
-
-After creating your custom tool, you can initialize it and pass it to AgentPro like this:
-
-```python
-import os
-from agentpro import ReactAgent
-from agentpro import create_model
-
-# Create a model with OpenAI
-model = create_model(provider="openai", model_name="gpt-4o", api_key=os.getenv("OPENAI_API_KEY", None))
-
-# Instantiate your custom tools
-tools = [MyCustomTool()]
-
-# Create AgentPro React agent
-myagent = ReactAgent(model=model,tools=tools)
-
-# Run a query
-query = "Use the custom tool to perform a task."
-response = myagent.run(query)
-
-print(response.final_answer)
-```
-
+print(result.final_answer)
+## 🧰 Project Structure
 ## Project Structure
 
 ```
@@ -186,6 +135,10 @@ AgentPro/
 │       ├── traversaalpro_rag_tool.py
 │       ├── slide_generation_tool.py
 │       └── yfinance_tool.py
+│       └── signal_analyzer.py
+│       └── signal_generator.py
+│       └── signal_diagnostic.py
+│       └── report_agent.py
 ├── cookbook/
 │   ├── Traversaal x Optimized AI Hackathon 2025
 │   ├── quick_start.ipynb
@@ -194,9 +147,9 @@ AgentPro/
 ├── requirements.txt                    # Dependencies
 ├── README.md                           # Project overview, usage instructions, and documentation
 ├── setup.py       
+├── app.py                              # Streamlit app
 ├── pyproject.toml     
 └── LICENSE.txt                         # Open-source license information (Apache License 2.0)
-```
 
 ## Requirements
 
