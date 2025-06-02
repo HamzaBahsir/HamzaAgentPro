@@ -16,13 +16,10 @@ scikit-learn
 seaborn
 yfinance
 litellm
-<<<<<<< HEAD
 streamlit
 scipy
 torch
 torchvision
 plotly
 jinja2
-=======
-test
->>>>>>> b5b3e02e94406581e963eb5b75db998e28ac068a
+
