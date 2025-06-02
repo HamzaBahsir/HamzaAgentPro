@@ -15,5 +15,9 @@ __all__ = [
     "AresInternetTool",
     "YFinanceTool",
     "TraversaalProRAGTool",
-    "SlideGenerationTool"
+    "SlideGenerationTool",
+    "SignalGeneratorAgent",
+    "SignalAnalyzerAgent",
+    "SignalDiagnosticAgent", 
+    "ReportAgent"
 ]
