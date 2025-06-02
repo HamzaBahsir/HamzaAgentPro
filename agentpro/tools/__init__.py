@@ -6,6 +6,10 @@ from .ares_tool import AresInternetTool
 from .yfinance_tool import YFinanceTool
 from .traversaalpro_rag_tool import TraversaalProRAGTool
 from .slide_generation_tool import SlideGenerationTool
+from .signal_generator import SignalGeneratorAgent
+from .signal_analyzer import SignalAnalyzerAgent
+from .signal_diagnostic import SignalDiagnosticAgent
+from .report_agent import ReportAgent
 
 __all__ = [
     "Tool",
