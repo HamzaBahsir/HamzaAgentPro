@@ -1,12 +1,7 @@
 import streamlit as st
 import openai
 from agentpro import create_model, ReactAgent
-from agentpro.tools import AresInternetTool, UserInputTool, CalculateTool
-#from signal_tools import SignalGeneratorAgent, SignalAnalyzerAgent, SignalDiagnosticAgent, ReportAgent  # Adjust import path
-from tools.signal_analyzer import SignalAnalyzerAgent
-from tools.signal_generator import SignalGeneratorAgent
-from tools.signal_diagnostic import SignalDiagnosticAgent
-from tools.report_agent import ReportAgent
+from agentpro.tools import AresInternetTool, UserInputTool, CalculateTool , SignalGeneratorAgent, SignalAnalyzerAgent, SignalDiagnosticAgent, ReportAgent  # Adjust import path
 
 # Set your API keys here or use Streamlit secrets
 openai.api_key = st.secrets["OPENAI_API_KEY"]
