@@ -1,6 +1,6 @@
 import streamlit as st
 import openai
-from agentpro.core import create_model, ReactAgent
+from agentpro import create_model, ReactAgent
 from agentpro.tools import AresInternetTool, UserInputTool, CalculateTool
 #from signal_tools import SignalGeneratorAgent, SignalAnalyzerAgent, SignalDiagnosticAgent, ReportAgent  # Adjust import path
 from tools.signal_analyzer import SignalAnalyzerAgent
