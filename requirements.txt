@@ -16,3 +16,9 @@ scikit-learn
 seaborn
 yfinance
 litellm
+streamlit
+scipy
+torch
+torchvision
+plotly
+jinja2
