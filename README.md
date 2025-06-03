@@ -150,13 +150,12 @@ AgentPro/
 ├── app.py                              # Streamlit app
 ├── pyproject.toml     
 └── LICENSE.txt                         # Open-source license information (Apache License 2.0)
+```
 
 ## Requirements
-
 - Python 3.8+
 - OpenAI API key
 - Traversaal Ares API key for internet search (Optional)
 
 ## License
-
 This project is licensed under the Apache 2.0 License - see the LICENSE file for more details.
