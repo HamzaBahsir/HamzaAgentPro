@@ -13,7 +13,7 @@ st.header("Signal Analysis Agent")
 
 # Show example query for guidance only (disabled textarea)
 sample_query = """
-Please simulate a multi-tone sine wave (duration = 2 seconds, sampling_rate = 2000 Hz)
+Please simulate a multi-tone sine wave with frequencies 100Hz and 300Hz (duration = 2 seconds, sampling_rate = 2000 Hz)
 Once the signal is generated:
 1. Compute its FFT and identify any prominent peaks.
 2. Detect if there is any unexpected frequency component (for example, a DC bias or 60 Hz hum).
