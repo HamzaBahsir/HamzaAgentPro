@@ -40,7 +40,6 @@ else:
     sampling_rate = st.sidebar.slider("Sampling Rate (Hz)", 500, 10000, 2000)
     frequencies = st.sidebar.text_input("Frequencies (comma-separated)", "50,150,300")
     amplitudes = st.sidebar.text_input("Amplitudes (comma-separated)", "1,0.5,0.2")
-    noise_level = st.sidebar.slider("Noise Level", 0.0, 1.0, 0.1)
     analyze_btn = st.sidebar.button("Run Signal Analysis")
 
 if analyze_btn:
@@ -67,7 +66,6 @@ if analyze_btn:
                     f"- Sampling Rate: {sampling_rate} Hz\n"
                     f"- Frequencies: {frequencies} Hz\n"
                     f"- Amplitudes: {amplitudes}\n"
-                    f"- Add Gaussian noise with level {noise_level}.\n"
                     "Then:\n"
                     "1. Perform FFT and detect peaks.\n"
                     "2. Identify anomalies (e.g., DC bias, 60Hz hum).\n"
